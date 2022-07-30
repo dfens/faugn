@@ -8,11 +8,9 @@ $(function () {
   var words = {
     "AA": "ja",
     "AB": "ty",
-    "AC": "vecna",
     "AD": "prawda",
     "AE": "kłamstwo",
     "AF": "kto",
-    "AG": "tutaj",
 
     "BA": "być",
     "BB": "zniszczyć",
@@ -30,7 +28,7 @@ $(function () {
     "DC": "przyjaciel",
     "DD": "wróg",
     "DE": "drzwi",
-    "DE": "muzyka",
+    "DF": "muzyka",
 
     "EA": "radość",
     "EB": "smutek",
@@ -41,19 +39,22 @@ $(function () {
     "FB": "vocare",
     "FC": "pulvere",
     "FD": "mans",
-    "FG": "sever"
+    "FG": "sever",
+
+    "GA": "vecna",
+
   }
 
   var usedSentences = [];
   var sentences = {
     "ty być piękny": { mood: 1, response: "ty dobry" },
-    "ty być dobry": { mood: 1, response: "ja radość zły vecna zniszczyć harmonia" },
+    "ty być dobry": { mood: 0, response: "ja radość zły vecna zniszczyć harmonia" },
     "ja faugn": { mood: 0, response: "kłamstwo" },
-    "ty faugn": { mood: 0, response: "prawda" },
-    "ty być faugn": { mood: 0, response: "prawda" },
+    "ty faugn": { mood: 0, response: "prawda kto ty" },
+    "ty być faugn": { mood: 0, response: "prawda kto ty" },
     "ty być człowiek": { mood: 0, response: "kłamstwo" },
     "ja zniszczyć muzyka": { mood: -2, response: "ja strach" },
-    "ja grać muzyka": { mood: 1, response: "ja radość" },
+    "ja grać muzyka": { mood: 0, response: "ty zniszczyć vocare ty zniszczyć smutek" },
     "ja być człowiek": { mood: 0, response: "ja być faugn" },
     "ja człowiek": { mood: 0, response: "ja faugn ty pomóc" },
     "ja przyjaciel": { mood: 2, response: "ja mieć drzwi" },
@@ -64,7 +65,7 @@ $(function () {
     "ty dobry": { mood: 1, response: "ty sever" },
     "ja być dobry": { mood: 1, response: "ty zniszczyć vecna" },
     "muzyka grać": { mood: 1, response: "harmonia" },
-    "ja pomóc": { mood: 2, response: "ty zniszczyć wróg" },
+    "ja pomóc": { mood: 1, response: "ty zniszczyć wróg" },
     "kto wróg": { mood: 0, response: "vecna" },
     "faugn być piękny": { mood: 1, response: "faugn grać muzyka" },
     "faugn piękny": { mood: 1, response: "faugn grać muzyka" },
@@ -77,8 +78,10 @@ $(function () {
     "vocare mans": { mood: -1, response: "zły harmonia" },
     "vocare omner": { mood: -1, response: "zły harmonia" },
     "vocare pulvere": { mood: 5, response: "strach zły strach ja otworzyć drzwi" },
-    "vecna wróg": { mood: 0, response: "vecna niszczyć harmonia" },
-    "muzyka być piękny": { mood: 1, response: "vecna niszczyć muzyka" },
+    "mans omner": { mood: 0, response: "ty otworzyć drzwi pulvere pulvere sever" },
+    "sever": { mood: 0, response: "prawda dobry kłamstwo zły" },
+    "vecna wróg": { mood: 0, response: "vecna zniszczyć harmonia" },
+    "muzyka być piękny": { mood: 1, response: "vecna zniszczyć muzyka" },
     "człowiek grać muzyka": { mood: 1, response: "człowiek być przyjaciel" },
     "ja być przyjaciel": { mood: 1, response: "ja radość ja mieć drzwi" },
     "ty być przyjaciel": { mood: 1, response: "ja grać muzyka ja mieć drzwi" },
@@ -90,9 +93,19 @@ $(function () {
     "ja zniszczyć vecna": { mood: 2, response: "ja otworzyć drzwi" },
     "ty pomóc": { mood: 0, response: "ty pomóc" },
     "ty grać piękny": { mood: 3, response: "ja radość harmonia sever mans" },
-    "vecna być zły": { mood: 0, response: "prawda"},
-    "faugn być dobry": { mood: 1, response: "faugn mieć przyjaciel"}
-
+    "vecna być zły": { mood: 0, response: "prawda" },
+    "faugn być dobry": { mood: 1, response: "faugn mieć przyjaciel" },
+    "ty grać muzyka": { mood: 0, response: "muzyka być harmonia" },
+    "muzyka być harmonia": { mood: 0, response: "vecna zniszczyć harmonia ty grać vocare" },
+    "ja radość": { mood: 0, response: "ja strach vecna mieć vocare" },
+    "kto ty": { mood: 0, response: "ja faugn" },
+    "vecna być zły": { mood: 0, response: "vecna zniszczyć muzyka" },
+    "ty mieć harmonia": { mood: 0, response: "mans omner sever" },
+    "kłamstwo": { mood: 0, response: "zniszczyć harmonia" },
+    "człowiek być przyjaciel": { mood: 0, response: "człowiek grać harmonia" },
+    "człowiek być piękny": { mood: 0, response: "człowiek grać harmonia" },
+    "muzyka mieć harmonia": { mood: 1, response: "prawda" },
+    "kłamstwo być zły": { mood: 1, response: "kłamstwo zniszczyć harmonia" },
   }
   var submitResponse = function (response) {
 
@@ -119,7 +132,7 @@ $(function () {
     $.each(sentences, function (sentence, result) {
       if (sentence == currentSentence) {
         var splittedSentence = sentence.split(" ");
-        var div = $("<div style='font-weight:normal'>("+result.mood+") </div>");
+        var div = $("<div style='font-weight:normal'>(" + result.mood + ") </div>");
 
         for (var i = 0; i < splittedSentence.length; i += 1) {
           var word = splittedSentence[i];
@@ -179,6 +192,7 @@ $(function () {
 
   $(".buttons").on("click", ".btn",
     function (e) {
+      e.preventDefault();
       var word = $(this).data('word');
       var key = $(this).data('key');
 
