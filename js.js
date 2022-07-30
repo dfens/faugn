@@ -42,7 +42,6 @@ $(function () {
     "FG": "sever",
 
     "GA": "vecna",
-
   }
 
   var usedSentences = [];
@@ -76,10 +75,12 @@ $(function () {
     "strach": { mood: 0, response: "omner" },
     "omner": { mood: 0, response: "vocare" },
     "vocare mans": { mood: -1, response: "zły harmonia" },
-    "vocare omner": { mood: -1, response: "zły harmonia" },
-    "vocare pulvere": { mood: 5, response: "strach zły strach ja otworzyć drzwi" },
+    "vocare omner": { mood: 0, response: "zły harmonia" },
+    "vocare pulvere": { mood: 0, response: "ja otworzyć drzwi ty zniszczyć vocare pulvere" },
     "mans omner": { mood: 0, response: "ty otworzyć drzwi pulvere pulvere sever" },
     "sever": { mood: 0, response: "prawda dobry kłamstwo zły" },
+    "sever pulvere": { mood: 0, response: "prawda dobry kłamstwo zły" },
+    "mans sever": { mood: 0, response: "prawda dobry kłamstwo zły" },
     "vecna wróg": { mood: 0, response: "vecna zniszczyć harmonia" },
     "muzyka być piękny": { mood: 1, response: "vecna zniszczyć muzyka" },
     "człowiek grać muzyka": { mood: 1, response: "człowiek być przyjaciel" },
@@ -106,6 +107,7 @@ $(function () {
     "człowiek być piękny": { mood: 0, response: "człowiek grać harmonia" },
     "muzyka mieć harmonia": { mood: 1, response: "prawda" },
     "kłamstwo być zły": { mood: 1, response: "kłamstwo zniszczyć harmonia" },
+    "ja zniszczyć vocare pulvere": { mood: 100, response: "ja radość ja otworzyć drzwi" },
   }
   var submitResponse = function (response) {
 
